@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="index">
+ 
+    
+      <select id="join" parameterType="hashmap" resultType="hashmap">
+        SELECT * FROM people;
+    </select> 
+    
+    <insert id="login" parameterType="hashmap">
+     INSERT INTO people values( #{id},#{pass},#{name})
+    </insert>
+    
+    <select id="idcheck" parameterType="hashmap" resultType="hashmap">
+        SELECT id FROM people where id=#{userId};
+    </select> 
+</mapper>
