@@ -9,7 +9,7 @@
     </select> 
     
     <insert id="login" parameterType="hashmap">
-     INSERT INTO people values( #{id},#{pass},#{name})
+     INSERT INTO people values( #{userId},#{pwd},#{userName})
     </insert>
     
     <select id="idcheck" parameterType="hashmap" resultType="hashmap">

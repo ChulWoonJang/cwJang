@@ -208,55 +208,43 @@ table {
 		<div id="layer2" class="pop-layer">
 			<div class="pop-container">
 				<div class="pop-conts">
-					<form action="join.do" name="insertUser" class="form-horizontal"
-						method="get">
-						<div style="margin-top: 15%">
-							<div class="form-group">
-								<label for="name" class="col-sm-2 control-label">Name</label>
-								<div class="col-sm-10">
-									<input type="text" class="form-control" id="name" name="name"
-										placeholder="Name">
-								</div>
-							</div>
-							<br>
-							<div class="form-group">
-								<label for="ID" class="col-sm-2 control-label">ID</label>
-								<div class="col-sm-5">
-									<input type="text" class="form-control" id="id" name="id"
-										placeholder="ID" onBlur="id_Check()">&nbsp; &nbsp; <input
-										type="text" name="idCheck" id="idCheck" size="30"
-										style="border-width: 0px" readonly="readonly">
-								</div>
-								<input type="button" class="btn btn-info" name="Check" id="Check" value="중복확인"
-									onClick="checkID()">
-							</div>
-							<div class="form-group">
-								<label for="pass" class="col-sm-2 control-label">Password</label>
-								<div class="col-sm-10">
-									<input type="password" class="form-control" name="pass"
-										id="pass" placeholder="Password">
-								</div>
-							</div>
-							<br>
-							<div class="form-group">
-								<label for="repass" class="col-sm-2 control-label">re-Pass</label>
-								<div class="col-sm-10">
-									<input type="password" name="repass" class="form-control"
-										id="repass" placeholder="repass" onBlur="insert_Clear()">&nbsp;&nbsp;
-									<input type="text" name="passcheck" id="passcheck" size="10%"
-										style="border-width: 0px" readonly>
-								</div>
-							</div>
-
-							<div style="margin-top: 5%" class="form-group">
-								<div class="col-sm-offset-2 col-sm-10">
-									<button type="button" class="btn btn-info"
-										onClick="insert_Clear()">Join</button>
-									<button type="button" class="btn btn-info">Back</button>
-								</div>
-							</div>
-						</div>
-					</form>
+					 <form class="form-horizontal" id="formJoin"  name="insertUser" method="post" action="join.do">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">ID</label>
+                <div class="col-sm-10">
+                  <input type="text" name="userId" id="userId"  class="form-control"
+                         size="15" onBlur="id_Check()">&nbsp; <input
+                        type="button" name="Check" id="Check" value="중복확인"
+                        onClick="checkID()"> &nbsp; <input type="text"
+                                                           name="idCheck" id="idCheck" size="30" style="border-width: 0px"
+                                                           readonly="readonly">
+                </div>
+              </div>
+              <div class="form-group">
+                <label  class="col-sm-2 control-label">Pass</label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control"  name="pwd" id="pwd" size="15">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">repeat</label>
+                <div class="col-sm-10"><input type="password"  class="form-control"  name="pwdChk" id="pwdChk"
+                                              size="15" onBlur="pass_Check()">&nbsp;&nbsp; <input
+                        type="text" name="pwdCheck" id="pwdCheck" size="30"
+                        style="border-width: 0px" readonly>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">name</label>
+                <div class="col-sm-10">
+                  <input type="text"  class="form-control"  name="userName" id="userName">
+                </div>
+              </div>
+              <div class="btn-index">
+                <input class="btn btn-primary" type="button" value="back" onclick="Back()">
+                <input class="btn btn-primary" type="button" value="Join" onClick="insert_Clear()">
+              </div>
+            </form>
 
 				</div>
 			</div>
@@ -314,70 +302,75 @@ table {
 
 		}
 	</script>
+<script type="text/javascript">
+  function id_Check() {
+    var id = document.insertUser.userId.value;
+    var idCheck1 = document.insertUser.userId.value.length >= 7;
+    var idCheck2 = document.insertUser.userId.value.length <= 12;
+    var checkId = /^[a-zA-Z0-9]*$/;
 
-	<script type="text/javascript">
-		function id_Check() {
-			var id = document.insertUser.id.value;
-			var idCheck1 = document.insertUser.id.value.length >= 7;
-			var idCheck2 = document.insertUser.id.value.length <= 12;
-			var checkId = /^[a-zA-Z0-9]*$/;
+    if (!id) {
+      document.insertUser.idCheck.value = "아이디를 입력해주세요.";
+    } else if (!idCheck1 || !idCheck2) {
+      document.insertUser.idCheck.value = "아이디는 7자 이상 12자 이하여야 합니다.";
+    } else if (!checkId.test(id)) {
+      document.insertUser.idCheck.value = "아이디는 영어와 숫자 조합이여야 합니다.";
+    } else {
+      document.insertUser.idCheck.value = "";
+    }
+    return;
+  }
 
-			if (!id) {
-				document.insertUser.id.value = "아이디를 입력해주세요.";
-			} else if (!idCheck1 || !idCheck2) {
-				document.insertUser.idCheck.value = "아이디는 7자 이상 12자 이하여야 합니다.";
-			} else if (!checkId.test(id)) {
-				document.insertUser.idCheck.value = "아이디는 영어와 숫자 조합이여야 합니다.";
-			} else {
-				document.insertUser.idCheck.value = "";
-			}
-			return;
-		}
+  function pass_Check() {
+    var pwd1 = document.insertUser.pwd.value;
+    var pwd2 = document.insertUser.pwdChk.value;
+    var pwdCheck1 = document.insertUser.pwd.value.length >= 7;
+    var pwdCheck2 = document.insertUser.pwd.value.length <= 12;
 
-		function insert_Clear() {
-			var userId = document.insertUser.id.value;
-			var id_Check1 = document.insertUser.id.value.length >= 7;
-			var id_Check2 = document.insertUser.id.value.length
-			<= 12;
+    if (pwd1 != pwd2) {
+      document.insertUser.pwdCheck.value = "비밀번호가 일치하지 않습니다.";
+    } else if (!pwdCheck1 || !pwdCheck2) {
+      document.insertUser.pwdCheck.value = "비밀번호는  7자 이상 12자 이하여야 합니다.";
+    } else {
+      document.insertUser.pwdCheck.value = "";
+    }
+    return;
+  }
+
+  function insert_Clear() {
+    var userId = document.insertUser.userId.value;
+    var id_Check1 = document.insertUser.userId.value.length >= 7;
+    var id_Check2 = document.insertUser.userId.value.length <= 12;
     var check_Id = /^[a-zA-Z0-9]*$/;
-    var pwd = document.insertUser.pass.value;
-    var userName = document.insertUser.name.value;
-    var pwd1 = document.insertUser.pass.value;
-    var pwd2 = document.insertUser.repass.value;
-    var pwdCheck1 = document.insertUser.pass.value.length > = 7;
-			var pwdCheck2 = document.insertUser.pass.value.length <= 12;
-			if (!userId) {
-				alert("아이디를 입력해주세요");
-			} else if (!id_Check1 || !id_Check2) {
-				alert("아이디는 7자 이상 12자 이하여야 합니다.");
-			} else if (!check_Id.test(userId)) {
-				alert("아이디는 영문과 숫자 조합이여야 합니다.");
-			} else if (!pwd) {
-				alert("비밀번호를 입력해주세요");
-			} else if (!userName) {
-				alert("사용자 이름을 입력해주세요");
-			} else if (pwd1 != pwd2) {
-				document.insertUser.passcheck.value = "비밀번호가 일치하지 않습니다.";
-			} else if (!pwdCheck1 || !pwdCheck2) {
-				document.insertUser.passcheck.value = "비밀번호는  7자 이상 12자 이하여야 합니다.";
-			} else {
-				document.insertUser.passcheck.value = "";
-				document.insertUser.submit();
-			}
+    var pwd = document.insertUser.pwd.value;
+    var userName = document.insertUser.userName.value;
 
-		}
+    if (!userId) {
+      alert("아이디를 입력해주세요");
+    }else if(!id_Check1 || !id_Check2){
+      alert("아이디는 7자 이상 12자 이하여야 합니다.");
+    }else if(!check_Id.test(userId)){
+      alert("아이디는 영문과 숫자 조합이여야 합니다.");
+    }else if (!pwd) {
+      alert("비밀번호를 입력해주세요");
+    } else if (!userName) {
+      alert("사용자 이름을 입력해주세요");
+    }  else {
+      document.insertUser.submit();
+    }
 
-		function checkID() {
-			var id = document.insertUser.id.value;
-			if (id.length<=6 || id.length> = 13) {
-				alert("아이디를 정확히 입력해주세요");
-			} else {
-				var url = "/lusiue/checkId.do?userId=" + id;
-				window
-						.open(url, "get",
-								"height = 240, width = 320, resizable=no, location=no, resizable=no");
-			}
-		}
-	</script>
+  }
+
+  function checkID(){
+    var id = document.insertUser.userId.value;
+    if(id.length<=6 || id.length>=13){
+      alert("아이디를 정확히 입력해주세요");
+    }else{
+      var url = "checkId.do?userId=" + id;
+      window.open(url, "get","height = 240, width = 320, resizable=no, location=no, resizable=no");
+    }
+  }
+</script>
+
 </body>
 </html>
